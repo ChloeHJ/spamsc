@@ -5,7 +5,7 @@ SPAMsc (Spatial Projection of PAired Modalities in Single-Cell Multiomics) is a 
 ## Install SPAMsc from github:
 ```
 library(devtools)
-install_github('ChloeHJ/spamsc', force = TRUE)
+install_github('ChloeHJ/spamsc')
 library(spamsc)
 library(Signac)
 ```
