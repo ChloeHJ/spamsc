@@ -1,0 +1,36 @@
+Package: spamsc
+Type: Package
+Title: Spatial projection of single-cell multiomics data 
+Version: 0.1.0
+Author: Chloe H. Lee <chloehyun-jung.lee@rdm.ox.ac.uk>
+Maintainer: Chloe H. Lee <chloehyun-jung.lee@rdm.ox.ac.uk>
+Description: SPAMsc (Spatial Projection of PAired Modalities in Single-Cell Multiomics) is a comprehensive workflow designed to project multi-modal single-cell data onto high-resolution spatial transcriptomic data and identify spatial features. 
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Depends:
+    Seurat (>= 5.1.0),
+    SeuratObject (>= 5.0.2),
+    Matrix (>= 1.7.0),
+    dbscan,
+    tibble,
+    dplyr,
+    ggplot2,
+    ggpubr,
+    viridis,
+    matrixStats,
+    reshape2,
+    ggrepel,
+    pheatmap,
+    sf,
+    spdep,
+    sfdep,
+    grDevices,
+    stats,
+    utils,
+    harmony,
+    magrittr,
+    tidyr
+RoxygenNote: 7.3.2
+
+
