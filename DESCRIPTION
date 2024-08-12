@@ -11,7 +11,7 @@ LazyData: true
 Depends:
     Seurat (>= 5.1.0),
     SeuratObject (>= 5.0.2),
-    Matrix (>= 1.7.0),
+    Matrix (>= 1.6.5),
     dbscan,
     tibble,
     dplyr,
