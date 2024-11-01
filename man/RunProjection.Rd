@@ -2,36 +2,19 @@
 % Please edit documentation in R/RunProjection.R
 \name{RunProjection}
 \alias{RunProjection}
-\title{Run projection}
+\title{RunProjection}
 \usage{
 RunProjection(
-  spatial,
-  multiome,
-  spatial_assay = "Xenium",
-  multiome_assay = "RNA",
-  spatial_cluster = "RNACluster",
-  multiome_cluster = "RNA_Label",
+  merge,
   coord,
   lambda = 0.4,
   knn_k = 100,
   n_harmony_dim = 35,
-  gene_counts = 0,
-  cell_counts = 0,
   plot_dir = NULL
 )
 }
 \arguments{
-\item{spatial}{A spatial Seurat object}
-
-\item{multiome}{A multiome Seurat object}
-
-\item{spatial_assay}{assay within spatial object shared with multiome data to integrate}
-
-\item{multiome_assay}{assay within multiome object shared with spatial data to integrate}
-
-\item{spatial_cluster}{column name in meta.data of spatial Seurat object containing cluster annotation of spatial data}
-
-\item{multiome_cluster}{column name in meta.data of multiome Seurat object containing cluster annotation of multiome data}
+\item{merge}{A merged Seurat object, output from `MergeDatasets()` function, merging spatial and multiome datasets}
 
 \item{coord}{cell x 2 matrix containing spatial coordinate of cells}
 
@@ -45,17 +28,10 @@ coordinate is assigned for the respective multiome cell.}
 
 \item{n_harmony_dim}{Number of harmony dimension to use to compute nearest neighbour. Default: 35}
 
-\item{gene_counts}{A threshold to remove genes based on summed gene counts. Default: 0.
-i.e., only retain genes having summed gene counts > gene_counts.}
-
-\item{cell_counts}{A threshold to remove cells based on summed cell counts. Default: 0.
-i.e., only retain cells having summed cell counts > cell_counts}
-
-\item{plot_dir}{Directory to save plots. If NULL, print plots. Example: '/directory' (instead of '/directory/')}
+\item{plot_dir}{Directory to save plots. If NULL, print plots.}
 }
 \value{
-A list of objects: a metadata containing spatial coordinate of multliome cells and
-an integrated seurat object from spatial and multiome data
+a metadata containing spatial coordinate of multliome cells
 }
 \description{
 Core function to integrate spatial and multiome data, and assign spatial coordinate to multiome cells

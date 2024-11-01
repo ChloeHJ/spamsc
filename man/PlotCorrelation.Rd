@@ -22,9 +22,9 @@ PlotCorrelation(
 
 \item{multiome_assay}{assay within multiome object shared with spatial data to integrate}
 
-\item{log10}{Whether to plot x and y axis in log10 scale description. Default = TRUE}
+\item{log10}{whether to plot correlation on after log10 transformation, default = TRUE}
 
-\item{plot_dir}{Directory to save plots. If NULL, print plots. Example: '/directory' (instead of '/directory/')}
+\item{plot_dir}{Directory to save plots. If NULL, print plots.}
 }
 \value{
 A scatterplot showing summed gene counts from spatial and multome data

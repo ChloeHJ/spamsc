@@ -4,11 +4,12 @@
 #'
 #' @param spatial A spatial Seurat object
 #' @param multiome A multiome Seurat object
-#' @param spatial_assay assay within spatial object shared with multiome data to integrate 
-#' @param multiome_assay assay within multiome object shared with spatial data to integrate 
-#' @param plot_dir Directory to save plots. If NULL, print plots. 
-#' 
-#' @return A scatterplot showing summed gene counts from spatial and multome data 
+#' @param spatial_assay assay within spatial object shared with multiome data to integrate
+#' @param multiome_assay assay within multiome object shared with spatial data to integrate
+#' @param log10 whether to plot correlation on after log10 transformation, default = TRUE
+#' @param plot_dir Directory to save plots. If NULL, print plots.
+#'
+#' @return A scatterplot showing summed gene counts from spatial and multome data
 #'
 PlotCorrelation <- function(spatial, multiome, spatial_assay = 'Xenium', multiome_assay = 'RNA', log10 = TRUE, plot_dir = NULL){
 
@@ -44,7 +45,7 @@ PlotCorrelation <- function(spatial, multiome, spatial_assay = 'Xenium', multiom
              theme_classic() + scale_x_continuous(trans='log10') +
              scale_y_continuous(trans='log10') + xlab(x_lab) + ylab(y_lab) + labs(title = paste0(length(shared_genes),' Shared genes')))
     if(!is.null(plot_dir)){dev.off()}
-    
+
   }else{
     if(!is.null(plot_dir)){cairo_pdf(filename = paste0(plot_dir, '/0_scatterplot.correlate.multiome.spatial.expression.pdf'), width = 5, height = 4)}
     print (gene_count_dt %>%
@@ -53,35 +54,35 @@ PlotCorrelation <- function(spatial, multiome, spatial_assay = 'Xenium', multiom
              geom_smooth(method=lm, se=FALSE, fullrange=TRUE)+ stat_cor(p.accuracy = 0.001, r.accuracy = 0.01)+
              theme_classic() + xlab(x_lab) + ylab(y_lab)  + labs(title = paste0(length(shared_genes),' Shared genes')))
     if(!is.null(plot_dir)){dev.off()}
-    
+
   }
-  
+
 
   return(gene_count_dt)
 
 }
 
 
-
-#' @description Integrate spatial and multiome datasets 
+#' @title MergeDatasets
+#' @description Integrate spatial and multiome datasets
 #'
 #' @param spatial A spatial Seurat object
 #' @param multiome A multiome Seurat object
-#' @param spatial_assay assay within spatial object shared with multiome data to integrate 
-#' @param multiome_assay assay within multiome object shared with spatial data to integrate 
-#' @param spatial_cluster column name in meta.data of spatial Seurat object containing cluster annotation of spatial data  
-#' @param multiome_cluster column name in meta.data of multiome Seurat object containing cluster annotation of multiome data 
+#' @param spatial_assay assay within spatial object shared with multiome data to integrate
+#' @param multiome_assay assay within multiome object shared with spatial data to integrate
+#' @param spatial_cluster column name in meta.data of spatial Seurat object containing cluster annotation of spatial data
+#' @param multiome_cluster column name in meta.data of multiome Seurat object containing cluster annotation of multiome data
 #' @param coord cell x 2 matrix containing spatial coordinate of cells
 #' @param gene_counts A threshold to remove genes based on summed gene counts. Default: 0.
 #' i.e., only retain genes having summed gene counts > gene_counts.
 #' @param cell_counts A threshold to remove cells based on summed cell counts. Default: 0.
 #' i.e., only retain cells having summed cell counts > cell_counts
-#' @param plot_dir Directory to save plots. If NULL, print plots. 
-#' 
-#' @return Am integrated Seurat object from spatial and multiome data 
+#' @param plot_dir Directory to save plots. If NULL, print plots.
 #'
-MergeDatasets <- function(spatial, multiome, spatial_assay = 'Xenium', multiome_assay = 'RNA',  
-                           spatial_cluster = 'RNACluster', multiome_cluster = 'RNA_Label', coord, 
+#' @return Am integrated Seurat object from spatial and multiome data
+#'
+MergeDatasets <- function(spatial, multiome, spatial_assay = 'Xenium', multiome_assay = 'RNA',
+                           spatial_cluster = 'RNACluster', multiome_cluster = 'RNA_Label', coord,
                            gene_counts = 0, cell_counts = 0, plot_dir = NULL){
 
   DefaultAssay(spatial) <- spatial_assay
@@ -101,10 +102,10 @@ MergeDatasets <- function(spatial, multiome, spatial_assay = 'Xenium', multiome_
 
   multiome_data$PDataset <- 'Multiome'
   multiome_data$PCluster <- multiome_data[[multiome_cluster]]
-  
+
   spatial_data$PDataset <- 'Spatial'
   spatial_data$PCluster <- spatial_data[[spatial_cluster]]
-  
+
   multiome_data[["Merge"]] <- multiome_data[[multiome_assay]]
   multiome_data@active.assay <- "Merge"
 
@@ -112,14 +113,14 @@ MergeDatasets <- function(spatial, multiome, spatial_assay = 'Xenium', multiome_
   spatial_data@active.assay <- "Merge"
 
   merge <- merge(spatial_data, multiome_data)
-  
+
   merge@active.assay <- "Merge"
   merge <- JoinLayers(merge)
   merge[["Merge"]] <- split(merge[["Merge"]], f = merge$PDataset)
-  
+
   merge <- SCTransform(merge, assay = "Merge")
   merge <- RunPCA(object = merge)
-  
+
   merge <-
     IntegrateLayers(
       merge,
@@ -131,45 +132,44 @@ MergeDatasets <- function(spatial, multiome, spatial_assay = 'Xenium', multiome_
       normalization.method="SCT",
       verbose=T
     )
-  
-  
+
+
   merge <- RunUMAP(merge, dims=1:10, reduction="harmony", reduction.name = "umap.harmony")
-  
+
   if(!is.null(plot_dir)){cairo_pdf(filename = paste0(plot_dir, '/1_umap.integrated.data.color.by.dataset.pdf'), width = 6, height = 5)}
   print(DimPlot(merge, group.by="PDataset", raster = FALSE, reduction = 'umap.harmony') + ggtitle('Integrated data, color by Dataset') + theme(plot.title = element_text(hjust = 0.5)))
   if(!is.null(plot_dir)){dev.off()}
-  
+
   if(!is.null(plot_dir)){cairo_pdf(filename = paste0(plot_dir, '/1_umap.integrated.data.color.by.cluster.pdf'), width = 9, height = 5)}
   print(DimPlot(merge, group.by="PCluster", raster = FALSE, reduction = 'umap.harmony') + ggtitle('Integrated data, color by Cluster') + theme(plot.title = element_text(hjust = 0.5)))
   if(!is.null(plot_dir)){dev.off()}
-  
+
   if(!is.null(plot_dir)){cairo_pdf(filename = paste0(plot_dir, '/1_umap.integrated.data.color.by.spatial.cluster.pdf'), width = 7.5, height = 5)}
   print(DimPlot(merge, group.by=spatial_cluster, raster = FALSE, reduction = 'umap.harmony') + ggtitle('Integrated data, color by spatial clusters') + theme(plot.title = element_text(hjust = 0.5)))
   if(!is.null(plot_dir)){dev.off()}
-  
+
   return(merge)
 }
 
-
-#' @description Core function to integrate spatial and multiome data, and assign spatial coordinate to multiome cells 
+#' @title RunProjection
+#' @description Core function to integrate spatial and multiome data, and assign spatial coordinate to multiome cells
 #'
-#' @param merge A merged Seurat object, output from `MergeDatasets()` function, merging spatial and multiome datasets 
+#' @param merge A merged Seurat object, output from `MergeDatasets()` function, merging spatial and multiome datasets
 #' @param coord cell x 2 matrix containing spatial coordinate of cells
-#' @param lambda Ridge regression penalty parameter for Harmony integration of spatial and multiome datasets. 
-#' Default lambda=0.4. Lambda must be strictly positive. Smaller values result in more aggressive correction. 
+#' @param lambda Ridge regression penalty parameter for Harmony integration of spatial and multiome datasets.
+#' Default lambda=0.4. Lambda must be strictly positive. Smaller values result in more aggressive correction.
 #' @param knn_k a cutoff for the top k k-nearest neighbors to find a spatial counterpart for. Default: 100.
-#' i.e., if there is no spatial counterpart in the top 100 neighbors, no spatial coordinate 
+#' i.e., if there is no spatial counterpart in the top 100 neighbors, no spatial coordinate
 #' is assigned to the respective multiome cell.
-#' coordinate is assigned for the respective multiome cell. 
+#' coordinate is assigned for the respective multiome cell.
 #' @param n_harmony_dim Number of harmony dimension to use to compute nearest neighbour. Default: 35
-#' @param plot_dir Directory to save plots. If NULL, print plots. 
-#' 
-#' @return A list of objects: a metadata containing spatial coordinate of multliome cells and 
-#' an integrated seurat object from spatial and multiome data 
+#' @param plot_dir Directory to save plots. If NULL, print plots.
+#'
+#' @return  a metadata containing spatial coordinate of multliome cells
 #'
 RunProjection <- function(merge, coord, lambda =  0.4, knn_k = 100, n_harmony_dim = 35,   plot_dir = NULL){
-    
-  # distance on harmony umap  
+
+  # distance on harmony umap
   print('Computing nearest neighbour...')
   har_emb <- merge@reductions$harmony@cell.embeddings[, 1:n_harmony_dim] #knn based on harmony umap embedding
   knn_k <- knn_k #[P]k threshold to get the best counterpart ie. if the best 100 neighbours are all multiome, then no spatial ids are retrieved
@@ -181,13 +181,13 @@ RunProjection <- function(merge, coord, lambda =  0.4, knn_k = 100, n_harmony_di
                 cols.highlight = c("orange", 'red'), cols = "gray", raster = FALSE, reduction = 'harmony') +
           ggtitle('Nearest top k cells, in harmony')+ theme(plot.title = element_text(hjust = 0.5)) )
   if(!is.null(plot_dir)){dev.off()}
-  
+
   if(!is.null(plot_dir)){cairo_pdf(filename = paste0(plot_dir, '/2_umap.nearest.neighbours.umap.harmony.pdf'), width = 6, height = 5)}
   print(DimPlot(object = merge, cells.highlight =list(cell = colnames(merge)[i], neighbours = c(colnames(merge)[nn$id[i,]]) ),
                 cols.highlight = c("orange", 'red'), cols = "gray", raster = FALSE, reduction = 'umap.harmony') +
           ggtitle('Nearest top k cells, in umap.harmony')+ theme(plot.title = element_text(hjust = 0.5)) )
   if(!is.null(plot_dir)){dev.off()}
-  
+
 
   # get best spatial counterpart of multimodal
   spaital_ids <- which(merge$PDataset == 'Spatial')
@@ -195,16 +195,16 @@ RunProjection <- function(merge, coord, lambda =  0.4, knn_k = 100, n_harmony_di
   nn_id_mtx <- nn$id[multiome_ids, ] # get multiome only
   nn_dist_mtx <- nn$dist[multiome_ids, ]
 
-  #get best spatial counterpart indices 
+  #get best spatial counterpart indices
   print('Finding the best spatial counterpart...')
-  best_spatial_inds <- c() 
+  best_spatial_inds <- c()
   for(i in 1:nrow(nn_id_mtx)){
     row <- nn_id_mtx[i, ]
     row[which(!row %in% spaital_ids)] <- NA
     nn_id_mtx[i, ] <- row
     best_spatial_inds <- c(best_spatial_inds, row[which(!is.na(row))[1]])
   }
-  
+
   # output dataframe
   sp_counterparts <- data.frame(
     multiome_id = rownames(nn_id_mtx),
@@ -213,12 +213,12 @@ RunProjection <- function(merge, coord, lambda =  0.4, knn_k = 100, n_harmony_di
     ) %>%
     mutate(spatial_id = rownames(nn$id)[spatial_ind] )
 
-  # get distance 
+  # get distance
   for(row in 1:nrow(sp_counterparts)){
     k <- as.numeric(sp_counterparts$nn_k[row])
     sp_counterparts$nn_dist[row] <- nn_dist_mtx[i, k]
   }
-  
+
   # get location of spatial
   spatial_loc <-  data.frame(spatial_id = colnames(spatial_data),coord)
   sp_counterparts <- sp_counterparts %>% left_join(spatial_loc, by = c('spatial_id'))
@@ -226,17 +226,15 @@ RunProjection <- function(merge, coord, lambda =  0.4, knn_k = 100, n_harmony_di
   # add to multiome metadata
   outs.metadata <- multiome@meta.data %>% rownames_to_column(var =  'multiome_id') %>%
     left_join(sp_counterparts, by = 'multiome_id')
-  
+
   if(!is.null(plot_dir)){cairo_pdf(filename = paste0(plot_dir, '/3_spatial.location.of.multiome.pdf'), width = 7, height = 5)}
   print( outs.metadata %>%  ggplot( aes(y, x, color = outs.metadata[[multiome_cluster]])) + geom_point(size = 0.7) + theme_classic() +
            ggtitle('Spatial location of Multiome cells, color by Multiome clusters') + theme(plot.title = element_text(hjust = 0.5)) +
            guides(color=guide_legend(title="Multiome cluster")))
   if(!is.null(plot_dir)){dev.off()}
-  
-  output <- list(outs.metadata = outs.metadata, seurat.merge = merge)
-  
+
   print('Done!')
-  return(output)
+  return(outs.metadata)
 }
 
 
