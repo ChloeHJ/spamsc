@@ -9,6 +9,7 @@ RunProjection(
   coord_dt,
   knn_k = 100,
   n_harmony_dim = 35,
+  multiome_cluster = "RNA_Label",
   plot_dir = NULL
 )
 }
@@ -23,6 +24,8 @@ is assigned to the respective multiome cell.
 coordinate is assigned for the respective multiome cell.}
 
 \item{n_harmony_dim}{Number of harmony dimension to use to compute nearest neighbour. Default: 35}
+
+\item{multiome_cluster}{column name in meta.data of merge Seurat object to visualise after projection}
 
 \item{plot_dir}{Directory to save plots. If NULL, print plots.}
 }

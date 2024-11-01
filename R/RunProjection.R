@@ -178,11 +178,12 @@ MergeDatasets <- function (spatial, multiome, spatial_assay = "Xenium", multiome
 #' is assigned to the respective multiome cell.
 #' coordinate is assigned for the respective multiome cell.
 #' @param n_harmony_dim Number of harmony dimension to use to compute nearest neighbour. Default: 35
+#' @param multiome_cluster column name in meta.data of merge Seurat object to visualise after projection
 #' @param plot_dir Directory to save plots. If NULL, print plots.
 #'
 #' @return  a metadata containing spatial coordinate of multliome cells
 #' @export
-RunProjection <- function(merge, coord_dt, knn_k = 100, n_harmony_dim = 35,   plot_dir = NULL){
+RunProjection <- function(merge, coord_dt, knn_k = 100, n_harmony_dim = 35,  multiome_cluster = "RNA_Label",  plot_dir = NULL){
 
   # distance on harmony umap
   print('Computing nearest neighbour...')
