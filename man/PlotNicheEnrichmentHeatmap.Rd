@@ -11,8 +11,6 @@ PlotNicheEnrichmentHeatmap(niche.outs)
 }
 \value{
 heatmap with enrichment results
-
- @export
 }
 \description{
 Given niche results from cellTypeNicheEnrichment, will plot an overview heatmap of cell type to cell niche enrichment.

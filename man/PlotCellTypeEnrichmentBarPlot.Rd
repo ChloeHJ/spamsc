@@ -13,8 +13,6 @@ PlotCellTypeEnrichmentBarPlot(niche.outs, CellType = 0)
 }
 \value{
 barplot with enrichment results
-
- @export
 }
 \description{
 Given niche results from CellTypeNicheEnrichment, will plot a niche enrichment barplot for any query cell type

@@ -107,7 +107,7 @@ CellTypeNicheEnrichment <- function(niches, cell.types){
 #' @param niche - which niche to plot, must be present in the results
 #' @return barplot with enrichment results
 #'
-#'  @export
+#' @export
 PlotNicheEnrichmentBarPlot <- function(niche.outs, niche=0){
 
   df <- niche.outs[niche.outs$Niche == niche,]
@@ -127,7 +127,7 @@ PlotNicheEnrichmentBarPlot <- function(niche.outs, niche=0){
 #' @param CellType - which cell type to plot, must be present in the results
 #' @return barplot with enrichment results
 #'
-#'  @export
+#' @export
 PlotCellTypeEnrichmentBarPlot <- function(niche.outs, CellType=0){
 
   df <- niche.outs[niche.outs$`Cell Type` == CellType,]
@@ -148,7 +148,7 @@ PlotCellTypeEnrichmentBarPlot <- function(niche.outs, CellType=0){
 #' @param niche.outs  - output table from `CellTypeNicheEnrichment` function
 #' @return heatmap with enrichment results
 #'
-#'  @export
+#' @export
 PlotNicheEnrichmentHeatmap <- function(niche.outs){
 
   niche.outs$Estimate <- as.numeric(niche.outs$Estimate)

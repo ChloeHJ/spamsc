@@ -10,7 +10,7 @@
 #' @param plot_dir Directory to save plots. If NULL, print plots.
 #'
 #' @return A scatterplot showing summed gene counts from spatial and multome data
-#'
+#' @export
 PlotCorrelation <- function(spatial, multiome, spatial_assay = 'Xenium', multiome_assay = 'RNA', log10 = TRUE, plot_dir = NULL){
 
   # correlate multiome & spatial expression
@@ -80,7 +80,7 @@ PlotCorrelation <- function(spatial, multiome, spatial_assay = 'Xenium', multiom
 #' @param plot_dir Directory to save plots. If NULL, print plots.
 #'
 #' @return Am integrated Seurat object from spatial and multiome data
-#'
+#' @export
 MergeDatasets <- function(spatial, multiome, spatial_assay = 'Xenium', multiome_assay = 'RNA',
                            spatial_cluster = 'RNACluster', multiome_cluster = 'RNA_Label', coord,
                            gene_counts = 0, cell_counts = 0, plot_dir = NULL){
@@ -166,7 +166,7 @@ MergeDatasets <- function(spatial, multiome, spatial_assay = 'Xenium', multiome_
 #' @param plot_dir Directory to save plots. If NULL, print plots.
 #'
 #' @return  a metadata containing spatial coordinate of multliome cells
-#'
+#' @export
 RunProjection <- function(merge, coord, lambda =  0.4, knn_k = 100, n_harmony_dim = 35,   plot_dir = NULL){
 
   # distance on harmony umap
