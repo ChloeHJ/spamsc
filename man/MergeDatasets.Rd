@@ -12,6 +12,7 @@ MergeDatasets(
   spatial_cluster = "RNACluster",
   multiome_cluster = "RNA_Label",
   coord,
+  harmony_lambda = NULL,
   gene_counts = 0,
   cell_counts = 0,
   plot_dir = NULL
@@ -32,6 +33,9 @@ MergeDatasets(
 
 \item{coord}{cell x 2 matrix containing spatial coordinate of cells}
 
+\item{harmony_lambda}{Ridge regression penalty parameter.Default lambda=NULL for automatic lambda estimation.
+Lambda must be strictly positive. Smaller values result in more aggressive correction.}
+
 \item{gene_counts}{A threshold to remove genes based on summed gene counts. Default: 0.
 i.e., only retain genes having summed gene counts > gene_counts.}
 
@@ -41,7 +45,8 @@ i.e., only retain cells having summed cell counts > cell_counts}
 \item{plot_dir}{Directory to save plots. If NULL, print plots.}
 }
 \value{
-Am integrated Seurat object from spatial and multiome data
+A list of integrated Seurat object from spatial and multiome data
+and coordinate after filtering for cells with low counts
 }
 \description{
 Integrate spatial and multiome datasets

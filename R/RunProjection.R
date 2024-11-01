@@ -73,82 +73,97 @@ PlotCorrelation <- function(spatial, multiome, spatial_assay = 'Xenium', multiom
 #' @param spatial_cluster column name in meta.data of spatial Seurat object containing cluster annotation of spatial data
 #' @param multiome_cluster column name in meta.data of multiome Seurat object containing cluster annotation of multiome data
 #' @param coord cell x 2 matrix containing spatial coordinate of cells
+#' @param harmony_lambda Ridge regression penalty parameter.Default lambda=NULL for automatic lambda estimation.
+#' Lambda must be strictly positive. Smaller values result in more aggressive correction.
 #' @param gene_counts A threshold to remove genes based on summed gene counts. Default: 0.
 #' i.e., only retain genes having summed gene counts > gene_counts.
 #' @param cell_counts A threshold to remove cells based on summed cell counts. Default: 0.
 #' i.e., only retain cells having summed cell counts > cell_counts
 #' @param plot_dir Directory to save plots. If NULL, print plots.
 #'
-#' @return Am integrated Seurat object from spatial and multiome data
+#' @return A list of integrated Seurat object from spatial and multiome data
+#' and coordinate after filtering for cells with low counts
 #' @export
-MergeDatasets <- function(spatial, multiome, spatial_assay = 'Xenium', multiome_assay = 'RNA',
-                           spatial_cluster = 'RNACluster', multiome_cluster = 'RNA_Label', coord,
-                           gene_counts = 0, cell_counts = 0, plot_dir = NULL){
+MergeDatasets <- function (spatial, multiome, spatial_assay = "Xenium", multiome_assay = "RNA",
+          spatial_cluster = "RNACluster", multiome_cluster = "RNA_Label",
+          coord, harmony_lambda = NULL, gene_counts = 0, cell_counts = 0, plot_dir = NULL)
+{
 
   DefaultAssay(spatial) <- spatial_assay
   DefaultAssay(multiome) <- multiome_assay
 
-  multiome <- multiome[which(rowSums(multiome@assays[[multiome_assay]]@counts) > gene_counts), ]
+  # pre-processing
+  multiome <- multiome[which(rowSums(multiome@assays[[multiome_assay]]@counts) >  gene_counts), ]
   spatial <- spatial[which(rowSums(spatial@assays[[spatial_assay]]@counts) > gene_counts), ]
-
   shared_genes <- intersect(rownames(spatial), rownames(multiome))
-  print(paste0('There are ', length(shared_genes), ' shared genes between spatial and multiome data for integration'))
+  print(paste0("There are ", length(shared_genes), " shared genes between spatial and multiome data for integration"))
   spatial_data <- spatial[shared_genes, ]
   multiome_data <- multiome[shared_genes, ]
 
-  multiome_data <- multiome_data[, which(colSums(multiome_data@assays[[multiome_assay]]@counts) > cell_counts)]
-  spatial_data <- spatial_data[, which(colSums(spatial_data@assays[[spatial_assay]]@counts) > cell_counts)]
+  multiome_data <- multiome_data[, which(colSums(multiome_data@assays[[multiome_assay]]@counts) >   cell_counts)]
+  spatial_data <- spatial_data[, which(colSums(spatial_data@assays[[spatial_assay]]@counts) >  cell_counts)]
   coord <- coord[which(colSums(spatial_data@assays[[spatial_assay]]@counts) > cell_counts), ]
 
-  multiome_data$PDataset <- 'Multiome'
+  # add cluster labels and datasets
+  multiome_data$PDataset <- "Multiome"
   multiome_data$PCluster <- multiome_data[[multiome_cluster]]
-
-  spatial_data$PDataset <- 'Spatial'
+  spatial_data$PDataset <- "Spatial"
   spatial_data$PCluster <- spatial_data[[spatial_cluster]]
 
-  multiome_data[["Merge"]] <- multiome_data[[multiome_assay]]
-  multiome_data@active.assay <- "Merge"
+  # just in case seurats were from previous versions, to make compatible with seurat v5 worfklow
+  multiome_assay5 <- as(multiome_data[[multiome_assay]], Class = "Assay5")
+  multiome_data <- CreateSeuratObject(multiome_assay5, meta.data = multiome_data@meta.data, assay = 'RNA')
+  spatial_assay5 <- as(spatial_data[[spatial_assay]], Class = "Assay5")
+  spatial_data <- CreateSeuratObject(spatial_assay5, meta.data = spatial_data@meta.data, assay = 'RNA')
 
-  spatial_data[["Merge"]] <- spatial_data[[spatial_assay]]
-  spatial_data@active.assay <- "Merge"
-
+  # merge by seurat v5 workflow
   merge <- merge(spatial_data, multiome_data)
+  merge@active.assay <- "RNA"
+  merge <- JoinLayers(merge, assay = "RNA")
 
-  merge@active.assay <- "Merge"
-  merge <- JoinLayers(merge)
-  merge[["Merge"]] <- split(merge[["Merge"]], f = merge$PDataset)
-
-  merge <- SCTransform(merge, assay = "Merge")
+  # batch correct
+  merge[["RNA"]] <- split(merge[["RNA"]], f = merge$PDataset)
+  merge <- SCTransform(merge, assay = "RNA")
   merge <- RunPCA(object = merge)
+  merge <- IntegrateLayers(merge, method = HarmonyIntegration,
+                           orig = "pca", new.reduction = "harmony", dims = 1:30,
+                           features = rownames(merge), normalization.method = "SCT", lambda = harmony_lambda,
+                           verbose = T)
+  merge <- RunUMAP(merge, dims = 1:10, reduction = "harmony",  reduction.name = "umap.harmony")
+  if (!is.null(plot_dir)) {
+    cairo_pdf(filename = paste0(plot_dir, "/1_umap.integrated.data.color.by.dataset.pdf"),
+              width = 6, height = 5)
+  }
+  print(DimPlot(merge, group.by = "PDataset", raster = FALSE,
+                reduction = "umap.harmony") + ggtitle("Integrated data, color by Dataset") +
+          theme(plot.title = element_text(hjust = 0.5)))
+  if (!is.null(plot_dir)) {
+    dev.off()
+  }
+  if (!is.null(plot_dir)) {
+    cairo_pdf(filename = paste0(plot_dir, "/1_umap.integrated.data.color.by.cluster.pdf"),
+              width = 9, height = 5)
+  }
+  print(DimPlot(merge, group.by = "PCluster", raster = FALSE,
+                reduction = "umap.harmony") + ggtitle("Integrated data, color by Cluster") +
+          theme(plot.title = element_text(hjust = 0.5)))
+  if (!is.null(plot_dir)) {
+    dev.off()
+  }
+  if (!is.null(plot_dir)) {
+    cairo_pdf(filename = paste0(plot_dir, "/1_umap.integrated.data.color.by.spatial.cluster.pdf"),
+              width = 7.5, height = 5)
+  }
+  print(DimPlot(merge, group.by = spatial_cluster, raster = FALSE,
+                reduction = "umap.harmony") + ggtitle("Integrated data, color by spatial clusters") +
+          theme(plot.title = element_text(hjust = 0.5)))
+  if (!is.null(plot_dir)) {
+    dev.off()
+  }
 
-  merge <-
-    IntegrateLayers(
-      merge,
-      method = HarmonyIntegration,
-      orig = "pca",
-      new.reduction = "harmony",
-      dims = 1:30,
-      features=rownames(merge),
-      normalization.method="SCT",
-      verbose=T
-    )
+  outs <- list(merge = merge, coord = coord)
 
-
-  merge <- RunUMAP(merge, dims=1:10, reduction="harmony", reduction.name = "umap.harmony")
-
-  if(!is.null(plot_dir)){cairo_pdf(filename = paste0(plot_dir, '/1_umap.integrated.data.color.by.dataset.pdf'), width = 6, height = 5)}
-  print(DimPlot(merge, group.by="PDataset", raster = FALSE, reduction = 'umap.harmony') + ggtitle('Integrated data, color by Dataset') + theme(plot.title = element_text(hjust = 0.5)))
-  if(!is.null(plot_dir)){dev.off()}
-
-  if(!is.null(plot_dir)){cairo_pdf(filename = paste0(plot_dir, '/1_umap.integrated.data.color.by.cluster.pdf'), width = 9, height = 5)}
-  print(DimPlot(merge, group.by="PCluster", raster = FALSE, reduction = 'umap.harmony') + ggtitle('Integrated data, color by Cluster') + theme(plot.title = element_text(hjust = 0.5)))
-  if(!is.null(plot_dir)){dev.off()}
-
-  if(!is.null(plot_dir)){cairo_pdf(filename = paste0(plot_dir, '/1_umap.integrated.data.color.by.spatial.cluster.pdf'), width = 7.5, height = 5)}
-  print(DimPlot(merge, group.by=spatial_cluster, raster = FALSE, reduction = 'umap.harmony') + ggtitle('Integrated data, color by spatial clusters') + theme(plot.title = element_text(hjust = 0.5)))
-  if(!is.null(plot_dir)){dev.off()}
-
-  return(merge)
+  return(outs)
 }
 
 #' @title RunProjection
