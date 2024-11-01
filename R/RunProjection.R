@@ -73,7 +73,8 @@ PlotCorrelation <- function(spatial, multiome, spatial_assay = 'Xenium', multiom
 #' @param spatial_cluster column name in meta.data of spatial Seurat object containing cluster annotation of spatial data
 #' @param multiome_cluster column name in meta.data of multiome Seurat object containing cluster annotation of multiome data
 #' @param coord cell x 2 matrix containing spatial coordinate of cells
-#' @param harmony_lambda Ridge regression penalty parameter.Default lambda=NULL for automatic lambda estimation.
+#' @param lambda Ridge regression penalty parameter for Harmony integration.
+#' Default lambda=NULL for automatic lambda estimation.
 #' Lambda must be strictly positive. Smaller values result in more aggressive correction.
 #' @param gene_counts A threshold to remove genes based on summed gene counts. Default: 0.
 #' i.e., only retain genes having summed gene counts > gene_counts.
@@ -86,7 +87,7 @@ PlotCorrelation <- function(spatial, multiome, spatial_assay = 'Xenium', multiom
 #' @export
 MergeDatasets <- function (spatial, multiome, spatial_assay = "Xenium", multiome_assay = "RNA",
           spatial_cluster = "RNACluster", multiome_cluster = "RNA_Label",
-          coord, harmony_lambda = NULL, gene_counts = 0, cell_counts = 0, plot_dir = NULL)
+          coord, lambda = NULL, gene_counts = 0, cell_counts = 0, plot_dir = NULL)
 {
 
   DefaultAssay(spatial) <- spatial_assay
@@ -127,7 +128,7 @@ MergeDatasets <- function (spatial, multiome, spatial_assay = "Xenium", multiome
   merge <- RunPCA(object = merge)
   merge <- IntegrateLayers(merge, method = HarmonyIntegration,
                            orig = "pca", new.reduction = "harmony", dims = 1:30,
-                           features = rownames(merge), normalization.method = "SCT", lambda = harmony_lambda,
+                           features = rownames(merge), normalization.method = "SCT", lambda = lambda,
                            verbose = T)
   merge <- RunUMAP(merge, dims = 1:10, reduction = "harmony",  reduction.name = "umap.harmony")
   if (!is.null(plot_dir)) {
@@ -161,7 +162,8 @@ MergeDatasets <- function (spatial, multiome, spatial_assay = "Xenium", multiome
     dev.off()
   }
 
-  outs <- list(merge = merge, coord = coord)
+  coord_dt <-  data.frame(spatial_id = colnames(spatial_data),coord)
+  outs <- list(merge = merge, coord_dt = coord_dt)
 
   return(outs)
 }
@@ -170,9 +172,7 @@ MergeDatasets <- function (spatial, multiome, spatial_assay = "Xenium", multiome
 #' @description Core function to integrate spatial and multiome data, and assign spatial coordinate to multiome cells
 #'
 #' @param merge A merged Seurat object, output from `MergeDatasets()` function, merging spatial and multiome datasets
-#' @param coord cell x 2 matrix containing spatial coordinate of cells
-#' @param lambda Ridge regression penalty parameter for Harmony integration of spatial and multiome datasets.
-#' Default lambda=0.4. Lambda must be strictly positive. Smaller values result in more aggressive correction.
+#' @param coord_dt cell x 3 data frame containing cell names and spatial coordinate of cells, output from `MergeDatasets()`
 #' @param knn_k a cutoff for the top k k-nearest neighbors to find a spatial counterpart for. Default: 100.
 #' i.e., if there is no spatial counterpart in the top 100 neighbors, no spatial coordinate
 #' is assigned to the respective multiome cell.
@@ -182,7 +182,7 @@ MergeDatasets <- function (spatial, multiome, spatial_assay = "Xenium", multiome
 #'
 #' @return  a metadata containing spatial coordinate of multliome cells
 #' @export
-RunProjection <- function(merge, coord, lambda =  0.4, knn_k = 100, n_harmony_dim = 35,   plot_dir = NULL){
+RunProjection <- function(merge, coord_dt, knn_k = 100, n_harmony_dim = 35,   plot_dir = NULL){
 
   # distance on harmony umap
   print('Computing nearest neighbour...')
@@ -235,8 +235,7 @@ RunProjection <- function(merge, coord, lambda =  0.4, knn_k = 100, n_harmony_di
   }
 
   # get location of spatial
-  spatial_loc <-  data.frame(spatial_id = colnames(spatial_data),coord)
-  sp_counterparts <- sp_counterparts %>% left_join(spatial_loc, by = c('spatial_id'))
+  sp_counterparts <- sp_counterparts %>% left_join(coord_dt, by = c('spatial_id'))
 
   # add to multiome metadata
   outs.metadata <- multiome@meta.data %>% rownames_to_column(var =  'multiome_id') %>%

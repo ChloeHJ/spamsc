@@ -12,7 +12,7 @@ MergeDatasets(
   spatial_cluster = "RNACluster",
   multiome_cluster = "RNA_Label",
   coord,
-  harmony_lambda = NULL,
+  lambda = NULL,
   gene_counts = 0,
   cell_counts = 0,
   plot_dir = NULL
@@ -33,7 +33,8 @@ MergeDatasets(
 
 \item{coord}{cell x 2 matrix containing spatial coordinate of cells}
 
-\item{harmony_lambda}{Ridge regression penalty parameter.Default lambda=NULL for automatic lambda estimation.
+\item{lambda}{Ridge regression penalty parameter for Harmony integration.
+Default lambda=NULL for automatic lambda estimation.
 Lambda must be strictly positive. Smaller values result in more aggressive correction.}
 
 \item{gene_counts}{A threshold to remove genes based on summed gene counts. Default: 0.

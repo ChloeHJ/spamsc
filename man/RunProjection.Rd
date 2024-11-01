@@ -6,8 +6,7 @@
 \usage{
 RunProjection(
   merge,
-  coord,
-  lambda = 0.4,
+  coord_dt,
   knn_k = 100,
   n_harmony_dim = 35,
   plot_dir = NULL
@@ -16,10 +15,7 @@ RunProjection(
 \arguments{
 \item{merge}{A merged Seurat object, output from `MergeDatasets()` function, merging spatial and multiome datasets}
 
-\item{coord}{cell x 2 matrix containing spatial coordinate of cells}
-
-\item{lambda}{Ridge regression penalty parameter for Harmony integration of spatial and multiome datasets.
-Default lambda=0.4. Lambda must be strictly positive. Smaller values result in more aggressive correction.}
+\item{coord_dt}{cell x 3 data frame containing cell names and spatial coordinate of cells, output from `MergeDatasets()`}
 
 \item{knn_k}{a cutoff for the top k k-nearest neighbors to find a spatial counterpart for. Default: 100.
 i.e., if there is no spatial counterpart in the top 100 neighbors, no spatial coordinate
