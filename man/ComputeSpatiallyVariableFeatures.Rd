@@ -2,7 +2,7 @@
 % Please edit documentation in R/ComputeSpatiallyVariableFeatures.R
 \name{ComputeSpatiallyVariableFeatures}
 \alias{ComputeSpatiallyVariableFeatures}
-\title{Compute SpatiallyV ariable Features}
+\title{ComputeSpatiallyVariableFeatures}
 \usage{
 ComputeSpatiallyVariableFeatures(data, coords, r.metric = 5)
 }

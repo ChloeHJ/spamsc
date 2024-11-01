@@ -2,7 +2,7 @@
 % Please edit documentation in R/ComputeSpatiallyVariableFeatures.R
 \name{PlotMoransiAcrossModality}
 \alias{PlotMoransiAcrossModality}
-\title{Plot Moransi Across Modality}
+\title{PlotMoransiAcrossModality}
 \usage{
 PlotMoransiAcrossModality(
   outs,

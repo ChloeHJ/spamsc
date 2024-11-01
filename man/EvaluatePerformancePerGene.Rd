@@ -2,7 +2,7 @@
 % Please edit documentation in R/EvaluatePerformance.R
 \name{EvaluatePerformancePerGene}
 \alias{EvaluatePerformancePerGene}
-\title{Evaluate Performance Per Gene}
+\title{EvaluatePerformancePerGene}
 \usage{
 EvaluatePerformancePerGene(
   outs.metadata,

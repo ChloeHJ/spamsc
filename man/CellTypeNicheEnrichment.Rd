@@ -2,7 +2,7 @@
 % Please edit documentation in R/ComputeSpatialNiche.R
 \name{CellTypeNicheEnrichment}
 \alias{CellTypeNicheEnrichment}
-\title{Cell Type Niche Enrichment}
+\title{CellTypeNicheEnrichment}
 \usage{
 CellTypeNicheEnrichment(niches, cell.types)
 }

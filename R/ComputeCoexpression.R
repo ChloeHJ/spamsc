@@ -1,4 +1,4 @@
-#' @title Compute coexpression
+#' @title ComputeCoexpression
 #' @description Compute correlation across genes of interest
 #'
 #' @param data gene x cell matrix containing expression values
@@ -13,7 +13,7 @@ ComputeCoexpression <- function(data ){
   return(cor_mtx)
 }
 
-#' @title Visualise coexpression
+#' @title VisualiseCoexpression
 #' @description Plot heatmap showing the correlation between genes.
 #'
 #' @param cor_mtx output correlation matrix from `compute_coexpression()`
@@ -39,7 +39,7 @@ VisualiseCoexpression <- function(cor_mtx,  cor.threshold = 0.4){
 }
 
 
-#' @title Visualise coexpression within range
+#' @title VisualiseCoexpressionWindow
 #' @description Plot heatmap showing the correlation between genes.
 #'
 #' @param cor_mtx output correlation matrix from `compute_coexpression()`

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ComputeSpatialNiche.R
 \name{PlotCellTypeEnrichmentBarPlot}
 \alias{PlotCellTypeEnrichmentBarPlot}
-\title{Plot CellType Enrichment BarPlot}
+\title{PlotCellTypeEnrichmentBarPlot}
 \usage{
 PlotCellTypeEnrichmentBarPlot(niche.outs, CellType = 0)
 }

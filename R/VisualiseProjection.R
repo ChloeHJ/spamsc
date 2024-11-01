@@ -1,4 +1,4 @@
-#' @title Visualise Paired Modality One Counterpart
+#' @title VisualisePairedModalityOneCounterpart
 #' @description Visualize gene expression from twp multiome assays on spatial coordinates
 #' when there is only one counterpart between assay 1 (e.g., RNA assay) and assay 2 (e.g., protein assay).
 #'
@@ -73,7 +73,7 @@ VisualisePairedModalityOneCounterpart <- function(outs.metadata, lookup_table, m
 
 }
 
-#' @title Visualise Paired Modality
+#' @title VisualisePairedModality
 #' @description Visualize gene expression from two multiome assays on spatial coordinates
 #'
 #' @param outs.metadata A output from `run_projection()`, containing spatial coordinate of multiome cells
@@ -223,7 +223,7 @@ VisualisePairedModality <- function(outs.metadata, lookup_table, multiome, spati
 }
 
 
-#' @title Compare Clusters
+#' @title CompareClusters
 #' @description Visualize the proportion of cells in multiome and spatial clusters.
 #' Visualize the proportion of cells in multiome clusters that lie in spatial clusters, and vice versa.
 #'
@@ -282,7 +282,7 @@ CompareClusters <- function(outs.metadata, multiome, spatial,
 }
 
 
-#' @title Visualise Single Modality
+#' @title VisualiseSingleModality
 #' @description Visualize gene expression from any multiome assays on spatial coordinates
 #'
 #' @param outs.metadata A output from `run_projection()`, containing spatial coordinate of multiome cells
@@ -329,7 +329,7 @@ VisualiseSingleModality <- function(outs.metadata, multiome, gene = NA,
 }
 
 
-#' @title Visualise Features
+#' @title VisualiseFeatures
 #' @description Visualize feature expression from meta.data on spatial coordinates
 #'
 #' @param outs.metadata A output from `run_projection()`, containing spatial coordinate of multiome cells

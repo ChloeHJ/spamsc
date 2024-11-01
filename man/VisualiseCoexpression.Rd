@@ -2,7 +2,7 @@
 % Please edit documentation in R/ComputeCoexpression.R
 \name{VisualiseCoexpression}
 \alias{VisualiseCoexpression}
-\title{Visualise coexpression}
+\title{VisualiseCoexpression}
 \usage{
 VisualiseCoexpression(cor_mtx, cor.threshold = 0.4)
 }

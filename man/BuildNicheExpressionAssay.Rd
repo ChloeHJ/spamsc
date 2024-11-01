@@ -2,7 +2,7 @@
 % Please edit documentation in R/ComputeSpatialNiche.R
 \name{BuildNicheExpressionAssay}
 \alias{BuildNicheExpressionAssay}
-\title{Build Niche Expression Assay}
+\title{BuildNicheExpressionAssay}
 \usage{
 BuildNicheExpressionAssay(data, coords, neighbors.k = 30)
 }

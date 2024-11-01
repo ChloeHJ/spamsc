@@ -2,7 +2,7 @@
 % Please edit documentation in R/EvaluatePerformance.R
 \name{EvaluatePerformancePerCell}
 \alias{EvaluatePerformancePerCell}
-\title{Evaluate Performance Per Cell}
+\title{EvaluatePerformancePerCell}
 \usage{
 EvaluatePerformancePerCell(
   outs.metadata,

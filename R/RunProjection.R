@@ -1,4 +1,4 @@
-#' @title check_crossmodal_correlation
+#' @title PlotCorrelation
 #'
 #' @description A plotting function showing correlation of gene expression from spatial and multiome data
 #'

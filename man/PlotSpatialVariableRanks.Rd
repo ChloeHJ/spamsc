@@ -2,7 +2,7 @@
 % Please edit documentation in R/ComputeSpatiallyVariableFeatures.R
 \name{PlotSpatialVariableRanks}
 \alias{PlotSpatialVariableRanks}
-\title{Plot Spatial Variable Ranks}
+\title{PlotSpatialVariableRanks}
 \usage{
 PlotSpatialVariableRanks(outs, rank.threshold = 100, text.max.overlap = 10)
 }

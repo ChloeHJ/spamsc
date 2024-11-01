@@ -2,7 +2,7 @@
 % Please edit documentation in R/EvaluatePerformance.R
 \name{PlotSpatialAssignment}
 \alias{PlotSpatialAssignment}
-\title{Plot spatial assignment}
+\title{PlotSpatialAssignment}
 \usage{
 PlotSpatialAssignment(outs.metadata, plot_dir = NULL)
 }

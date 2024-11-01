@@ -2,7 +2,7 @@
 % Please edit documentation in R/VisualiseProjection.R
 \name{VisualiseFeatures}
 \alias{VisualiseFeatures}
-\title{Visualise Features}
+\title{VisualiseFeatures}
 \usage{
 VisualiseFeatures(
   outs.metadata,

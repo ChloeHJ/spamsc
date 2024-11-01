@@ -2,7 +2,7 @@
 % Please edit documentation in R/ConvertintoSpatialObject.R
 \name{ConvertAnndata}
 \alias{ConvertAnndata}
-\title{Convert Seurat to Anndata}
+\title{ConvertAnndata}
 \usage{
 ConvertAnndata(
   seurat,

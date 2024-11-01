@@ -2,7 +2,7 @@
 % Please edit documentation in R/EvaluatePerformance.R
 \name{PlotGeneCorrelation}
 \alias{PlotGeneCorrelation}
-\title{Plot Gene Correlation}
+\title{PlotGeneCorrelation}
 \usage{
 PlotGeneCorrelation(
   outs.metadata,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ComputeSpatiallyVariableFeatures.R
 \name{ComputeRMetric}
 \alias{ComputeRMetric}
-\title{Compute RMetric}
+\title{ComputeRMetric}
 \usage{
 ComputeRMetric(mv, r.metric = 5)
 }

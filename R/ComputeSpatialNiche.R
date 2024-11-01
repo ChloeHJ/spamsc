@@ -1,4 +1,4 @@
-#' @title Build Niche Expression Assay
+#' @title BuildNicheExpressionAssay
 #' @description Creates a matrix of expression values for each cell's nearest spatial neighbours
 #' To be used as an alternative niche assay without needing to specify cell types apriori - can test for enrichment afterwards
 #' So this is a more unsupervised approach
@@ -70,7 +70,7 @@ FindNiches <- function(spatial, niche.matrix, resolution=0.1,
   return(spatial)
 }
 
-#' @title Cell Type Niche Enrichment
+#' @title CellTypeNicheEnrichment
 #' @description Given a vector of niches and a corresponding vector of cell types, will calculate cell type enrichment table in each niche
 #' to be used with downstream visualisation functions
 #' @param niches - vector of niche names per cell
@@ -101,7 +101,7 @@ CellTypeNicheEnrichment <- function(niches, cell.types){
 
 
 
-#' @title Plot Niche Enrichment BarPlot
+#' @title PlotNicheEnrichmentBarPlot
 #' @description given niche results from CellTypeNicheEnrichment, will plot a cell type enrichment barplot for any query niche
 #' @param niche.outs - output table from `CellTypeNicheEnrichment`
 #' @param niche - which niche to plot, must be present in the results
@@ -121,7 +121,7 @@ PlotNicheEnrichmentBarPlot <- function(niche.outs, niche=0){
   ) + geom_hline(yintercept = c(-1, 1), lty=2, colour="red")
 }
 
-#' @title Plot CellType Enrichment BarPlot
+#' @title PlotCellTypeEnrichmentBarPlot
 #' @description Given niche results from CellTypeNicheEnrichment, will plot a niche enrichment barplot for any query cell type
 #' @param niche.outs - output table from `CellTypeNicheEnrichment`
 #' @param CellType - which cell type to plot, must be present in the results
@@ -143,7 +143,7 @@ PlotCellTypeEnrichmentBarPlot <- function(niche.outs, CellType=0){
 
 
 
-#' @title Plot Niche Enrichment Heatmap
+#' @title PlotNicheEnrichmentHeatmap
 #' @description Given niche results from cellTypeNicheEnrichment, will plot an overview heatmap of cell type to cell niche enrichment.
 #' @param niche.outs  - output table from `CellTypeNicheEnrichment` function
 #' @return heatmap with enrichment results

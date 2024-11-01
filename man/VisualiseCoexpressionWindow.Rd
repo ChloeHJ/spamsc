@@ -2,7 +2,7 @@
 % Please edit documentation in R/ComputeCoexpression.R
 \name{VisualiseCoexpressionWindow}
 \alias{VisualiseCoexpressionWindow}
-\title{Visualise coexpression within range}
+\title{VisualiseCoexpressionWindow}
 \usage{
 VisualiseCoexpressionWindow(
   cor_mtx,

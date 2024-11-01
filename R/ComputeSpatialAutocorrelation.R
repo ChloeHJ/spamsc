@@ -1,4 +1,4 @@
-#' @title Compute autocorrelation
+#' @title ComputeAutocorrelation
 #' @description Compute spatial autocorrelation of genes
 #'
 #' @param coords cell x 2 matrix containing spatial coordinate of cells

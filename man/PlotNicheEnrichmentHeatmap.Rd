@@ -2,7 +2,7 @@
 % Please edit documentation in R/ComputeSpatialNiche.R
 \name{PlotNicheEnrichmentHeatmap}
 \alias{PlotNicheEnrichmentHeatmap}
-\title{Plot Niche Enrichment Heatmap}
+\title{PlotNicheEnrichmentHeatmap}
 \usage{
 PlotNicheEnrichmentHeatmap(niche.outs)
 }

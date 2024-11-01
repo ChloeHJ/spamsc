@@ -2,7 +2,7 @@
 % Please edit documentation in R/ComputeCoexpression.R
 \name{ComputeCoexpression}
 \alias{ComputeCoexpression}
-\title{Compute coexpression}
+\title{ComputeCoexpression}
 \usage{
 ComputeCoexpression(data)
 }

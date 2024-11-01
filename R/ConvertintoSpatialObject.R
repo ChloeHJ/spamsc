@@ -1,4 +1,4 @@
-#' @title Convert Multiome to SpatialObject
+#' @title MultiometoSpatialObject
 #' @description Processing function to convert a multiome Seurat object into a spatial Seurat object by
 #' adding spatial coordinates and image object
 #'
@@ -41,7 +41,7 @@ MultiometoSpatialObject <- function(outs.metadata, spatial, multiome, spatial_as
 
 }
 
-#' @title Convert Seurat to Anndata
+#' @title ConvertAnndata
 #' @description Processing function to convert a Seurat object into an Anndata
 #'
 #' @param seurat A Seurat object. Possibly output from `MultiometoSpatialObject()`

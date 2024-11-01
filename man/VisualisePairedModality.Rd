@@ -2,7 +2,7 @@
 % Please edit documentation in R/VisualiseProjection.R
 \name{VisualisePairedModality}
 \alias{VisualisePairedModality}
-\title{Visualise Paired Modality}
+\title{VisualisePairedModality}
 \usage{
 VisualisePairedModality(
   outs.metadata,

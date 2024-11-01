@@ -2,7 +2,7 @@
 % Please edit documentation in R/ComputeSpatiallyVariableFeatures.R
 \name{PlotSpatialRankAcrossModality}
 \alias{PlotSpatialRankAcrossModality}
-\title{Plot Spatial Rank Across Modality}
+\title{PlotSpatialRankAcrossModality}
 \usage{
 PlotSpatialRankAcrossModality(outs, plot.rank = NA, top.features = 100)
 }

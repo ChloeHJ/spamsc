@@ -2,7 +2,7 @@
 % Please edit documentation in R/EvaluatePerformance.R
 \name{PlotSummedExpressionSpatial}
 \alias{PlotSummedExpressionSpatial}
-\title{Plot summed expression on spatial coordinate}
+\title{PlotSummedExpressionSpatial}
 \usage{
 PlotSummedExpressionSpatial(
   outs.metadata,

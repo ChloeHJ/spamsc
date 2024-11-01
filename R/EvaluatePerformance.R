@@ -1,4 +1,4 @@
-#' @title Evaluate Performance Per Gene
+#' @title EvaluatePerformancePerGene
 #' @description Evaluate the accuracy of integration between spatial and multiome data
 #' by comparing the expression of each gene between spatial-multiome cell counterparts.
 #'
@@ -57,7 +57,7 @@ EvaluatePerformancePerGene <- function(outs.metadata, spatial, multiome, spatial
 }
 
 
-#' @title Evaluate Performance Per Cell
+#' @title EvaluatePerformancePerCell
 #' @description Evaluate the accuracy of integration between spatial and multiome data
 #' by comparing the expression of spatial-multiome cell counterparts,
 #' and compare to randomly shuffled background
@@ -142,7 +142,7 @@ EvaluatePerformancePerCell <- function(outs.metadata, spatial, multiome, spatial
 
 }
 
-#' @title Plot Gene Correlation
+#' @title PlotGeneCorrelation
 #' @description Plot correlation in gene expression between spatial-multiome cell counterparts.
 #'
 #' @param outs.metadata A output from `run_projection()`, containing spatial coordinate of multiome cells
@@ -182,7 +182,7 @@ PlotGeneCorrelation <- function(outs.metadata, gene = 'CD3D', multiome, spatial,
 
 }
 
-#' @title Plot correlation on spatial coordinate
+#' @title PlotCorrelationSpatial
 #' @description Plot correlation in gene expression between spatial-multiome cell counterparts
 #' on their spatial coordinates
 #'
@@ -241,7 +241,7 @@ PlotCorrelationSpatial <- function(outs.metadata, multiome, spatial, spatial_ass
 
 }
 
-#' @title Plot summed expression on spatial coordinate
+#' @title PlotSummedExpressionSpatial
 #' @description Plot summed gene counts for each multiome cells on their spatial coordinates
 #'
 #' @param outs.metadata A output from `run_projection()`, containing spatial coordinate of multiome cells
@@ -304,7 +304,7 @@ PlotSummedExpressionSpatial <- function(outs.metadata, multiome, spatial, spatia
 }
 
 
-#' @title Plot nearest neighbor distance
+#' @title PlotNNDistance
 #' @description Diagnostic plot showing distance of closest spatial counterpart with multiome cells
 #'
 #' @param outs.metadata A output from `run_projection()`, containing spatial coordinate of multiome cells
@@ -343,7 +343,7 @@ PlotNNDistance <- function(outs.metadata, plot_dir = NULL){
 
 }
 
-#' @title Plot spatial assignment
+#' @title PlotSpatialAssignment
 #' @description Diagnostic plot showing number of multiome cells assigned to each spatial coordinate
 #'
 #' @param outs.metadata A output from `run_projection()`, containing spatial coordinate of multiome cells

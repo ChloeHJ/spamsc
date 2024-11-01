@@ -2,7 +2,7 @@
 % Please edit documentation in R/EvaluatePerformance.R
 \name{PlotNNDistance}
 \alias{PlotNNDistance}
-\title{Plot nearest neighbor distance}
+\title{PlotNNDistance}
 \usage{
 PlotNNDistance(outs.metadata, plot_dir = NULL)
 }

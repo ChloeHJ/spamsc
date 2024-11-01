@@ -2,7 +2,7 @@
 % Please edit documentation in R/ComputeSpatialNiche.R
 \name{PlotNicheEnrichmentBarPlot}
 \alias{PlotNicheEnrichmentBarPlot}
-\title{Plot Niche Enrichment BarPlot}
+\title{PlotNicheEnrichmentBarPlot}
 \usage{
 PlotNicheEnrichmentBarPlot(niche.outs, niche = 0)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ComputeSpatialAutocorrelation.R
 \name{ComputeAutocorrelation}
 \alias{ComputeAutocorrelation}
-\title{Compute autocorrelation}
+\title{ComputeAutocorrelation}
 \usage{
 ComputeAutocorrelation(data, coords)
 }

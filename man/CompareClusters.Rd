@@ -2,7 +2,7 @@
 % Please edit documentation in R/VisualiseProjection.R
 \name{CompareClusters}
 \alias{CompareClusters}
-\title{Compare Clusters}
+\title{CompareClusters}
 \usage{
 CompareClusters(
   outs.metadata,

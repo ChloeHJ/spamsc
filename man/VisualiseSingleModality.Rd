@@ -2,7 +2,7 @@
 % Please edit documentation in R/VisualiseProjection.R
 \name{VisualiseSingleModality}
 \alias{VisualiseSingleModality}
-\title{Visualise Single Modality}
+\title{VisualiseSingleModality}
 \usage{
 VisualiseSingleModality(
   outs.metadata,

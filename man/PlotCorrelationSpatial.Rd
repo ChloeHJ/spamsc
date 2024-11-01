@@ -2,7 +2,7 @@
 % Please edit documentation in R/EvaluatePerformance.R
 \name{PlotCorrelationSpatial}
 \alias{PlotCorrelationSpatial}
-\title{Plot correlation on spatial coordinate}
+\title{PlotCorrelationSpatial}
 \usage{
 PlotCorrelationSpatial(
   outs.metadata,

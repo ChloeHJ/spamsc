@@ -1,4 +1,4 @@
-#' @title Compute RMetric
+#' @title ComputeRMetric
 #' @description Computes the metric at a given r (radius) value and stores
 #' in meta.features from Seurat preprocessing functions
 #'
@@ -20,7 +20,7 @@ ComputeRMetric <- function(mv, r.metric = 5) {
   return(r.metric.results)
 }
 
-#' @title Compute SpatiallyV ariable Features
+#' @title ComputeSpatiallyVariableFeatures
 #' @description Compute spatially variable features from assay by
 #' mark variogram and Moran's I computation
 #'
@@ -64,7 +64,7 @@ ComputeSpatiallyVariableFeatures <- function(data, coords, r.metric = 5 ){
 }
 
 
-#' @title Plot Spatial Variable Ranks
+#' @title PlotSpatialVariableRanks
 #' @description Plot rank of each gene by their mark variogram and moran's I ranks.
 #'
 #' @param outs output dataframe from `compute_spatially_variable_features()`
@@ -99,7 +99,7 @@ PlotSpatialVariableRanks <- function(outs, rank.threshold = 100, text.max.overla
 
 }
 
-#' @title Plot Moransi Across Modality
+#' @title PlotMoransiAcrossModality
 #' @description Plot moran's I values from two assays
 #'
 #' @param outs output dataframe from `compute_spatially_variable_features()`
@@ -168,7 +168,7 @@ PlotMoransiAcrossModality <- function(outs, plot.moransI = NA, top.features = 10
 
 }
 
-#' @title Plot Spatial Rank Across Modality
+#' @title PlotSpatialRankAcrossModality
 #' @description Plot spatially variable rank from two assays
 #'
 #' @param outs output dataframe from `compute_spatially_variable_features()`

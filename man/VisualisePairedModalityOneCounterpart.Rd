@@ -2,7 +2,7 @@
 % Please edit documentation in R/VisualiseProjection.R
 \name{VisualisePairedModalityOneCounterpart}
 \alias{VisualisePairedModalityOneCounterpart}
-\title{Visualise Paired Modality One Counterpart}
+\title{VisualisePairedModalityOneCounterpart}
 \usage{
 VisualisePairedModalityOneCounterpart(
   outs.metadata,

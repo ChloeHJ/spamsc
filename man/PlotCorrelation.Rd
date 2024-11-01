@@ -2,7 +2,7 @@
 % Please edit documentation in R/RunProjection.R
 \name{PlotCorrelation}
 \alias{PlotCorrelation}
-\title{check_crossmodal_correlation}
+\title{PlotCorrelation}
 \usage{
 PlotCorrelation(
   spatial,

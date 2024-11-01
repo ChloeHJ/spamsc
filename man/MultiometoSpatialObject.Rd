@@ -2,7 +2,7 @@
 % Please edit documentation in R/ConvertintoSpatialObject.R
 \name{MultiometoSpatialObject}
 \alias{MultiometoSpatialObject}
-\title{Convert Multiome to SpatialObject}
+\title{MultiometoSpatialObject}
 \usage{
 MultiometoSpatialObject(
   outs.metadata,
