@@ -14,6 +14,7 @@ BuildNicheExpressionAssay <- function(
 ) {
 
   cells <- colnames(data)
+  rownames(coords) <- cells
   neighbors <- FindNeighbors(coords, k.param = neighbors.k)
   neighbors$nn <- neighbors$nn[cells, cells]
 
