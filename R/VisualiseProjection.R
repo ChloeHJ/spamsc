@@ -71,6 +71,8 @@ VisualisePairedModalityOneCounterpart <- function(outs.metadata, lookup_table, m
 
   }
 
+  return(p1 + p2)
+
 }
 
 #' @title VisualisePairedModality
@@ -219,6 +221,7 @@ VisualisePairedModality <- function(outs.metadata, lookup_table, multiome, spati
 
   }
 
+  return(p1 + p2)
 
 }
 
@@ -261,23 +264,26 @@ CompareClusters <- function(outs.metadata, multiome, spatial,
           theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) )
   if(!is.null(plot_dir)){dev.off()}
 
+  p <- table_lg %>% group_by(Spatial_Label) %>% mutate(sum_spatial = sum(freq)) %>%
+    mutate(`% Spatial` = freq/sum_spatial) %>%
+    ggplot(aes(Multiome_Label, Spatial_Label, fill= `% Spatial`)) +
+    geom_tile() + scale_fill_gradient(low="white", high="red") +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
   if(!is.null(plot_dir)){cairo_pdf(filename = paste0(plot_dir, '/Evaluate.compare.multiome.spatial.clusters.pct.spatial.pdf'), width = width, height = height)}
-  print( table_lg %>% group_by(Spatial_Label) %>% mutate(sum_spatial = sum(freq)) %>%
-           mutate(`% Spatial` = freq/sum_spatial) %>%
-           ggplot(aes(Multiome_Label, Spatial_Label, fill= `% Spatial`)) +
-           geom_tile() + scale_fill_gradient(low="white", high="red") +
-           theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) )
+  print( p )
   if(!is.null(plot_dir)){dev.off()}
+
+  p <- table_lg %>% group_by(Multiome_Label) %>% mutate(sum_multiome = sum(freq)) %>%
+    mutate(`% Multiome` = freq/sum_multiome) %>%
+    ggplot(aes(Multiome_Label, Spatial_Label, fill= `% Multiome`)) +
+    geom_tile() + scale_fill_gradient(low="white", high="red") +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
   if(!is.null(plot_dir)){cairo_pdf(filename = paste0(plot_dir, '/Evaluate.compare.multiome.spatial.clusters.pct.multiome.pdf'), width = width, height = height)}
-  print( table_lg %>% group_by(Multiome_Label) %>% mutate(sum_multiome = sum(freq)) %>%
-           mutate(`% Multiome` = freq/sum_multiome) %>%
-           ggplot(aes(Multiome_Label, Spatial_Label, fill= `% Multiome`)) +
-           geom_tile() + scale_fill_gradient(low="white", high="red") +
-           theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) )
+  print( p )
   if(!is.null(plot_dir)){dev.off()}
 
-
+  return(p)
 
 }
 
@@ -313,18 +319,19 @@ VisualiseSingleModality <- function(outs.metadata, multiome, gene = NA,
   data <- outs.metadata %>% dplyr::select(multiome_id, x, y) %>% left_join(genes_exp, by = 'multiome_id')
   if(order == TRUE){data <- data %>% arrange(V1)}
 
+  p <- data %>%
+    ggplot( aes(y, x, color = V1)) + geom_point(size = pt.size) + theme_classic() +
+    scale_color_viridis(direction = -1)  + labs(color = gene)  +
+    ggtitle(paste0(multiome_plot_assay, ': ', gene)) + labs(color='Scaled\nExpression')
   if(!is.null(plot_dir)){
     if(order == TRUE){cairo_pdf(filename = paste0(plot_dir, '/Visualise.spatial.coord.', gene, '.', multiome_plot_assay, '.ordered.pdf'), width = 4, height = 3)}else{
       cairo_pdf(filename = paste0(plot_dir, '/Visualise.spatial.coord.', gene, '.', multiome_plot_assay, '.pdf'), width = 4, height = 3)
     }
       }
-  print( data %>%
-           ggplot( aes(y, x, color = V1)) + geom_point(size = pt.size) + theme_classic() +
-           scale_color_viridis(direction = -1)  + labs(color = gene)  +
-           ggtitle(paste0(multiome_plot_assay, ': ', gene)) + labs(color='Scaled\nExpression')
-         )
+  print( p)
   if(!is.null(plot_dir)){dev.off()}
 
+  return(p)
 
 }
 
@@ -366,4 +373,5 @@ VisualiseFeatures <- function(outs.metadata, multiome, feature = NA, pt.size = 0
   print(p)
   if(!is.null(plot_dir)){dev.off()}
 
+  return(p)
 }
