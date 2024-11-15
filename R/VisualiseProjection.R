@@ -306,6 +306,7 @@ VisualiseSingleModality <- function(outs.metadata, multiome, gene = NA,
 
   # original modality
   DefaultAssay(multiome) <- multiome_plot_assay;
+  outs.metadata$multiome_id <- rownames(outs.metadata)
 
   genes_exp <- tryCatch({
     as.matrix(multiome@assays[[multiome_plot_assay]]@counts[gene, ]) %>%
