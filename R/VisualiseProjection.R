@@ -302,7 +302,8 @@ CompareClusters <- function(outs.metadata, multiome, spatial,
 #' @return A scatterplot showing gene expression from any mulitome assay on spatial coordinates.
 #' @export
 VisualiseSingleModality <- function(outs.metadata, multiome, gene = NA,
-                                    multiome_plot_assay = 'GeneScore', pt.size = 0.4, order = FALSE, plot_dir = NULL){
+                                    multiome_plot_assay = 'GeneScore', pt.size = 0.4, order = FALSE, plot_dir = NULL,
+                                    plot_height = 3, plot_width = 4){
 
   # original modality
   DefaultAssay(multiome) <- multiome_plot_assay;
@@ -325,8 +326,8 @@ VisualiseSingleModality <- function(outs.metadata, multiome, gene = NA,
     scale_color_viridis(direction = -1)  + labs(color = gene)  +
     ggtitle(paste0(multiome_plot_assay, ': ', gene)) + labs(color='Scaled\nExpression')
   if(!is.null(plot_dir)){
-    if(order == TRUE){cairo_pdf(filename = paste0(plot_dir, '/Visualise.spatial.coord.', gene, '.', multiome_plot_assay, '.ordered.pdf'), width = 4, height = 3)}else{
-      cairo_pdf(filename = paste0(plot_dir, '/Visualise.spatial.coord.', gene, '.', multiome_plot_assay, '.pdf'), width = 4, height = 3)
+    if(order == TRUE){cairo_pdf(filename = paste0(plot_dir, '/Visualise.spatial.coord.', gene, '.', multiome_plot_assay, '.ordered.pdf'), width = plot_width, height = plot_height)}else{
+      cairo_pdf(filename = paste0(plot_dir, '/Visualise.spatial.coord.', gene, '.', multiome_plot_assay, '.pdf'), width = plot_width, height = plot_height)
     }
       }
   print( p)
