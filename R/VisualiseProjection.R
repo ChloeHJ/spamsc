@@ -323,7 +323,7 @@ VisualiseSingleModality <- function(outs.metadata, multiome, gene = NA,
 
   p <- data %>%
     ggplot( aes(y, x, color = V1)) + geom_point(size = pt.size) + theme_classic() +
-    scale_color_distiller(palette = "Spectral") + labs(color = gene)  +
+    scale_color_viridis(direction = -1)  + labs(color = gene)  +
     ggtitle(paste0(multiome_plot_assay, ': ', gene)) + labs(color='Scaled\nExpression')
   if(!is.null(plot_dir)){
     if(order == TRUE){cairo_pdf(filename = paste0(plot_dir, '/Visualise.spatial.coord.', gene, '.', multiome_plot_assay, '.ordered.pdf'), width = plot_width, height = plot_height)}else{
