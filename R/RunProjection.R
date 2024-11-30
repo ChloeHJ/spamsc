@@ -183,7 +183,7 @@ MergeDatasets <- function (spatial, multiome, spatial_assay = "Xenium", multiome
 #'
 #' @return  a metadata containing spatial coordinate of multliome cells
 #' @export
-RunProjection <- function(merge, coord_dt, knn_k = 100, n_harmony_dim = 35,  multiome_cluster = "RNA_Label",  plot_dir = NULL){
+RunProjection <- function(merge, multiome, coord_dt, knn_k = 100, n_harmony_dim = 35,  multiome_cluster = "RNA_Label",  plot_dir = NULL){
 
   # distance on harmony umap
   print('Computing nearest neighbour...')
@@ -239,7 +239,7 @@ RunProjection <- function(merge, coord_dt, knn_k = 100, n_harmony_dim = 35,  mul
   sp_counterparts <- sp_counterparts %>% left_join(coord_dt, by = c('spatial_id'))
 
   # add to multiome metadata
-  outs.metadata <- merge@meta.data %>% rownames_to_column(var =  'multiome_id') %>%
+  outs.metadata <- multiome@meta.data %>% rownames_to_column(var =  'multiome_id') %>%
     left_join(sp_counterparts, by = 'multiome_id')
 
   if(!is.null(plot_dir)){cairo_pdf(filename = paste0(plot_dir, '/3_spatial.location.of.multiome.pdf'), width = 7, height = 5)}
