@@ -6,6 +6,7 @@
 \usage{
 RunProjection(
   merge,
+  multiome,
   coord_dt,
   knn_k = 100,
   n_harmony_dim = 35,
@@ -15,6 +16,8 @@ RunProjection(
 }
 \arguments{
 \item{merge}{A merged Seurat object, output from `MergeDatasets()` function, merging spatial and multiome datasets}
+
+\item{multiome}{A multiome Seurat object}
 
 \item{coord_dt}{cell x 3 data frame containing cell names and spatial coordinate of cells, output from `MergeDatasets()`}
 

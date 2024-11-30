@@ -172,6 +172,7 @@ MergeDatasets <- function (spatial, multiome, spatial_assay = "Xenium", multiome
 #' @description Core function to integrate spatial and multiome data, and assign spatial coordinate to multiome cells
 #'
 #' @param merge A merged Seurat object, output from `MergeDatasets()` function, merging spatial and multiome datasets
+#' @param multiome A multiome Seurat object
 #' @param coord_dt cell x 3 data frame containing cell names and spatial coordinate of cells, output from `MergeDatasets()`
 #' @param knn_k a cutoff for the top k k-nearest neighbors to find a spatial counterpart for. Default: 100.
 #' i.e., if there is no spatial counterpart in the top 100 neighbors, no spatial coordinate

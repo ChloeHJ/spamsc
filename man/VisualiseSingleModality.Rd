@@ -11,7 +11,9 @@ VisualiseSingleModality(
   multiome_plot_assay = "GeneScore",
   pt.size = 0.4,
   order = FALSE,
-  plot_dir = NULL
+  plot_dir = NULL,
+  plot_height = 3,
+  plot_width = 4
 )
 }
 \arguments{
